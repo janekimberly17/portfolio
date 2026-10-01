@@ -27,7 +27,7 @@ const peeks = {
 			<span className="pg-grid">
 				<span className="pg-main">
 					<span>
-						<span className="pg-eyebrow">→ AI &amp; ML engineer</span>
+						<span className="pg-eyebrow">→ Full Stack Engineer</span>
 						<span className="pg-title">Hi, I'm Kimberly.</span>
 					</span>
 					<span className="pg-fields">
@@ -126,12 +126,11 @@ const Landing = () => (
 	<div className="landing">
 		<header className="strip strip-cover">
 			<h1 className="cover-title">
-				<span className="cover-kicker">Kim's</span>
-				Portfolio_01–03
+				Kim_Portfolio_01
 			</h1>
 			<p className="cover-sub">
-				AI &amp; ML engineer:<br />
-				Data · Models · Full stack
+				Software Engineer:<br />
+				ML · DL · AI · Full stack
 			</p>
 			<p className="cover-file">FILE_00//</p>
 		</header>
@@ -141,11 +140,10 @@ const Landing = () => (
 			<div className="log-body">
 				<span className="log-rule" />
 				<span className="barcode" aria-hidden="true" />
-				<p className="log-hello">Hi, I'm Kimberly.</p>
+				<p className="log-hello">Welcome</p>
 				<p className="log-ref">KJH — 01-A</p>
 				<p className="log-text">
-					AI and machine learning engineer with a foundation in data
-					analytics and full-stack development.
+					Software Engineer with a foundation in Machine Learning, Deep Learning, AI, data analytics and full-stack development.
 				</p>
 				<span className="log-scan" aria-hidden="true" />
 			</div>

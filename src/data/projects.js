@@ -49,19 +49,11 @@ export const projects = [
 		skills: ['Python', 'Machine Learning'],
 	},
 	{
-		icon: HandHeart,
-		tab: 'Elderly Gigs',
-		tone: 'slate',
-		title: 'Elderly Gigs',
-		text: 'Final year project at UTP (2024). An accessible employment platform that helps senior citizens find work, grounded in human-centred design principles.',
-		skills: [],
-	},
-	{
 		icon: FolderTree,
 		tab: 'Report taxonomy',
 		tone: 'kraft',
 		title: 'Taxonomy Classification of Mechanical Static Reports',
 		text: 'Industrial training at PETRONAS Carigali, Miri (2023). Engineered a classification framework to standardise unstructured maintenance records, alongside a data taxonomy aligned with PETRONAS Data Governance and Assurance standards.',
-		skills: [],
+		skills: ['Data Taxonomy', 'Data Governance', 'Power BI'],
 	},
 ];

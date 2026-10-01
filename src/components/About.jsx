@@ -15,19 +15,19 @@ const About = () => (
 
 		<div className="about-grid">
 			<div className="about-main">
-				<span className="eyebrow">AI &amp; ML engineer</span>
+				<span className="eyebrow">Software Engineer</span>
 				<h1 className="doc-title">Hi, I'm Kimberly.</h1>
 
 				<dl className="record">
 					<div><dt>Subject</dt><dd>Kimberly Jane Harry</dd></div>
-					<div><dt>Role</dt><dd>AI and machine learning engineer</dd></div>
+					<div><dt>Role</dt><dd>Software Engineer</dd></div>
 					<div><dt>Based</dt><dd>Kuching, Sarawak</dd></div>
-					<div><dt>Status</dt><dd>Open to new work</dd></div>
+					<div><dt>Status</dt><dd>Open to work</dd></div>
 				</dl>
 
 				<p className="section-description">
-					I'm an AI and machine learning engineer with a foundation in data
-					analytics and full-stack development, currently pursuing a Certificate
+					I'm a software engineer with a foundation in data
+					analytics, AI, ML, DL and full-stack development, currently pursuing a Certificate
 					in AI and Cloud for Construction at Gamuda AI Academy. I turn
 					operational data into machine learning models and dashboards that
 					measurably improve efficiency.
