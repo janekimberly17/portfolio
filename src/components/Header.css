@@ -1,0 +1,146 @@
+/* Desk label above the folder */
+.site-header {
+    padding: 28px 0 18px;
+    color: var(--desk-ink);
+}
+
+.site-header .nav-inner {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.brand-name {
+    font-family: var(--display);
+    font-stretch: 62%;
+    font-weight: 800;
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--desk-ink);
+    text-decoration: none;
+}
+
+.desk-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-family: var(--type);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--desk-muted);
+}
+
+.desk-file {
+    color: var(--desk-ink);
+}
+
+@media (max-width: 600px) {
+    .desk-meta {
+        align-items: flex-start;
+    }
+}
+
+/* Folder tabs: vertical, down the right edge of the folder on wide screens */
+.folder-tabs ul {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    list-style: none;
+    margin: 0;
+    padding: 56px 0 0;
+}
+
+.folder-tab {
+    --tab: var(--manila);
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    writing-mode: vertical-rl;
+    width: 46px;
+    padding: 22px 0;
+    min-height: 150px;
+    font-family: var(--type);
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    background-color: color-mix(in srgb, var(--tab) 86%, #000);
+    /* Chamfered corners, like die-cut folder tabs */
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 16px, 100% calc(100% - 16px), calc(100% - 12px) 100%, 0 100%);
+    /* Tucked a little way behind the folder until picked */
+    transform: translateX(-10px);
+    transition: transform 0.3s cubic-bezier(.2, .8, .2, 1), background-color 0.3s;
+}
+
+.folder-tab:hover {
+    transform: translateX(-3px);
+}
+
+.folder-tab.active {
+    background-color: var(--tab);
+    transform: translateX(0);
+}
+
+.folder-tab-code {
+    font-size: 0.66rem;
+    opacity: 0.7;
+}
+
+.folder-tab-label {
+    font-weight: 700;
+}
+
+.folder-tab.tone-manila { --tab: var(--manila); }
+.folder-tab.tone-sage { --tab: var(--sage); }
+.folder-tab.tone-slate { --tab: var(--slate); }
+
+/* Narrow screens: tabs run across the top of the folder instead */
+@media (max-width: 860px) {
+    .folder-tabs ul {
+        flex-direction: row;
+        gap: 6px;
+        padding: 0 0 0 12px;
+    }
+
+    .folder-tabs li {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .folder-tab {
+        writing-mode: horizontal-tb;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        width: auto;
+        min-height: 0;
+        margin: 0;
+        padding: 10px 14px 12px;
+        font-size: 0.72rem;
+        clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 100%, 0 100%);
+        transform: translateY(6px);
+    }
+
+    .folder-tab:hover,
+    .folder-tab.active {
+        transform: translateY(0);
+    }
+
+    .folder-tab.active {
+        width: auto;
+    }
+
+    .folder-tab-label {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 100%;
+    }
+}

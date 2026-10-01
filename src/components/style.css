@@ -1,0 +1,1251 @@
+.container {
+    width: 100%;
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.main {
+    flex: 1;
+    width: 100%;
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 0 24px 40px;
+}
+
+/* ------------------------------------------------------------------
+   The folder: coloured stock, a second sheet peeking out behind the
+   current document, and tabs down the right edge.
+   ------------------------------------------------------------------ */
+.folder {
+    --folder: var(--manila);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 52px;
+    grid-template-areas: "body tabs";
+    align-items: start;
+}
+
+.folder.tone-manila { --folder: var(--manila); }
+.folder.tone-sage { --folder: var(--sage); }
+.folder.tone-slate { --folder: var(--slate); }
+
+.folder-tabs {
+    grid-area: tabs;
+    position: sticky;
+    top: 16px;
+    z-index: 0;
+}
+
+.folder-body {
+    grid-area: body;
+    position: relative;
+    z-index: 1;
+    padding: 22px;
+    background-color: var(--folder);
+    /* Fine fibres in the folder stock */
+    background-image: repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.025) 0 1px, transparent 1px 3px);
+    border-radius: 3px 0 3px 3px;
+    box-shadow: var(--shadow-lg);
+    transition: background-color 0.45s ease;
+}
+
+/* A loose sheet tucked behind the current document */
+.folder-body::before {
+    content: '';
+    position: absolute;
+    inset: 34px 18px 12px 40px;
+    background: var(--paper-2);
+    box-shadow: var(--shadow);
+    transform: rotate(0.9deg);
+}
+
+/* The document itself: lined paper, punched holes, photocopy grain */
+.sheet {
+    --hole: color-mix(in srgb, var(--folder) 70%, #000);
+    position: relative;
+    z-index: 1;
+    min-height: 70vh;
+    padding: 40px 56px 64px 92px;
+    background-color: var(--paper);
+    background-image: repeating-linear-gradient(to bottom, transparent 0 31px, var(--rule) 31px 32px);
+    background-position: 0 104px;
+    box-shadow: var(--shadow);
+}
+
+.sheet::before {
+    content: '';
+    position: absolute;
+    top: 28px;
+    bottom: 28px;
+    left: 26px;
+    width: 18px;
+    background: radial-gradient(circle at 9px 9px, var(--hole) 0 7px, rgba(0, 0, 0, 0.18) 7.5px, transparent 9px) 0 0 / 18px 40px repeat-y;
+    transition: background 0.45s ease;
+}
+
+.sheet::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: var(--grain);
+    opacity: 0.16;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    /* A new document slides up out of the folder each time a tab is picked */
+    .sheet {
+        animation: pull-sheet 0.6s cubic-bezier(.2, .8, .2, 1) both;
+        transform-origin: 30% 100%;
+    }
+}
+
+@keyframes pull-sheet {
+    from {
+        opacity: 0;
+        transform: translateY(48px) rotate(-1.2deg);
+    }
+}
+
+@media (max-width: 860px) {
+    .folder {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas: "tabs" "body";
+    }
+
+    .folder-tabs {
+        position: static;
+    }
+
+    .folder-body {
+        padding: 14px 10px 14px 14px;
+        border-radius: 0 0 3px 3px;
+    }
+
+    .folder-body::before {
+        inset: 24px 4px 6px 24px;
+    }
+
+    .sheet {
+        padding: 28px 20px 48px 52px;
+    }
+
+    .sheet::before {
+        left: 14px;
+        width: 16px;
+        background-size: 16px 36px;
+        background-image: radial-gradient(circle at 8px 8px, var(--hole) 0 6px, rgba(0, 0, 0, 0.18) 6.5px, transparent 8px);
+    }
+}
+
+@media (max-width: 480px) {
+    .main {
+        padding: 0 10px 32px;
+    }
+
+    .sheet {
+        padding-right: 16px;
+        padding-left: 42px;
+    }
+
+    .sheet::before {
+        left: 10px;
+    }
+}
+
+/* ------------------------------------------------------------------
+   Shared document furniture
+   ------------------------------------------------------------------ */
+.doc-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    padding-bottom: 14px;
+    margin-bottom: 40px;
+    border-bottom: 1px dashed var(--line);
+    font-family: var(--type);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.doc-code {
+    display: block;
+    color: var(--ink);
+    margin-bottom: 4px;
+}
+
+.doc-ref {
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+/* A fake barcode, drawn with stripes */
+.barcode {
+    display: block;
+    width: 96px;
+    height: 26px;
+    background: repeating-linear-gradient(90deg,
+        var(--ink) 0 2px, transparent 2px 4px,
+        var(--ink) 4px 5px, transparent 5px 8px,
+        var(--ink) 8px 11px, transparent 11px 12px,
+        var(--ink) 12px 13px, transparent 13px 16px);
+    opacity: 0.85;
+}
+
+.breadcrumb {
+    display: flex;
+    gap: 6px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.breadcrumb a {
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.breadcrumb a:hover {
+    color: var(--blue);
+    border-color: currentColor;
+}
+
+.breadcrumb-item {
+    display: inline-flex;
+    gap: 6px;
+}
+
+.breadcrumb-item.active {
+    color: var(--blue-ink);
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--type);
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--blue-ink);
+    margin-bottom: 14px;
+}
+
+.eyebrow::before {
+    content: '→';
+    letter-spacing: 0;
+}
+
+.doc-title {
+    font-size: clamp(2.4rem, 6vw, 4.25rem);
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.section-description {
+    max-width: 580px;
+    font-size: 1rem;
+    color: var(--ink-soft);
+}
+
+.field-label {
+    font-family: var(--type);
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.field-empty {
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+/* Buttons: typed labels on card stock, not pills */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    font-family: var(--type);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1.5px solid var(--ink);
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s, color 0.2s;
+}
+
+.btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 var(--ink);
+}
+
+.btn:active {
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-solid {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: var(--paper);
+}
+
+.btn-solid:hover {
+    box-shadow: 4px 4px 0 var(--ink);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--ink);
+}
+
+.btn-outline:hover {
+    background: var(--card);
+}
+
+.icon-btn {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border: 1.5px solid currentColor;
+    border-radius: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.icon-btn:hover {
+    background: var(--ink);
+    color: var(--paper);
+}
+
+/* ------------------------------------------------------------------
+   About: personnel record
+   ------------------------------------------------------------------ */
+.about-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 260px;
+    gap: 48px;
+}
+
+.record {
+    display: grid;
+    gap: 0;
+    margin: 0 0 24px;
+    max-width: 520px;
+    border-top: 1px solid var(--line);
+}
+
+.record > div {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 16px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.record dt {
+    font-family: var(--type);
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-top: 3px;
+}
+
+.record dd {
+    margin: 0;
+    color: var(--blue-ink);
+    font-weight: 500;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 32px;
+}
+
+.about-side {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+    align-items: flex-end;
+}
+
+/* The cobalt block from the reference, pinned with a binder clip */
+.stamp-block {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 210px;
+    padding: 30px 20px 22px;
+    background: var(--blue);
+    color: #eef0ff;
+    font-family: var(--type);
+    font-size: 1.6rem;
+    line-height: 1.12;
+    text-transform: uppercase;
+    transform: rotate(1.4deg);
+    /* Rough, torn left edge */
+    clip-path: polygon(3% 0, 100% 0, 100% 100%, 2% 100%, 0 92%, 3% 84%, 1% 75%, 4% 66%, 0 57%, 3% 48%, 1% 38%, 4% 29%, 0 20%, 3% 11%);
+    box-shadow: var(--shadow);
+}
+
+.stamp-block::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: var(--grain);
+    opacity: 0.3;
+    mix-blend-mode: multiply;
+}
+
+.stamp-wrap {
+    position: relative;
+}
+
+/* Sits outside the block, since the torn-edge clip-path would cut it off */
+.stamp-clip {
+    position: absolute;
+    top: -26px;
+    right: 26px;
+    width: 46px;
+    transform: rotate(4deg);
+}
+
+.photo {
+    position: relative;
+    margin: 0;
+    padding: 12px 12px 10px;
+    width: 200px;
+    background: var(--card);
+    box-shadow: var(--shadow);
+    transform: rotate(-2.2deg);
+}
+
+.photo-frame {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 5;
+    color: var(--ink-soft);
+    background-color: #c9c3b4;
+    /* Halftone dots, as if photocopied */
+    background-image: radial-gradient(rgba(0, 0, 0, 0.22) 1px, transparent 1.4px);
+    background-size: 5px 5px;
+    filter: contrast(1.1);
+    overflow: hidden;
+}
+
+.photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+}
+
+.photo figcaption {
+    margin-top: 8px;
+    font-family: var(--type);
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.photo-clip {
+    position: absolute;
+    top: -26px;
+    left: 18px;
+    color: #8f8b82;
+    transform: rotate(-8deg);
+    z-index: 1;
+}
+
+/* Contents card: grid paper with a torn bottom edge */
+.index-card-wrap {
+    margin-top: 56px;
+    max-width: 560px;
+    filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.18));
+    transform: rotate(-0.6deg);
+}
+
+.index-card {
+    padding: 22px 28px 34px;
+    background-color: #ebe2cf;
+    background-image:
+        linear-gradient(rgba(60, 70, 110, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(60, 70, 110, 0.12) 1px, transparent 1px);
+    background-size: 16px 16px;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 6px), 96% 100%, 91% calc(100% - 5px), 85% calc(100% - 1px), 78% calc(100% - 6px), 70% 100%, 63% calc(100% - 4px), 55% calc(100% - 1px), 48% calc(100% - 6px), 40% calc(100% - 2px), 33% calc(100% - 5px), 25% 100%, 18% calc(100% - 4px), 10% calc(100% - 1px), 4% calc(100% - 5px), 0 calc(100% - 2px));
+}
+
+.index-card-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+}
+
+.index-card ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.index-card a {
+    display: grid;
+    grid-template-columns: 36px auto 1fr;
+    align-items: baseline;
+    gap: 12px;
+    padding: 6px 0;
+    text-decoration: none;
+    color: var(--blue-ink);
+}
+
+.index-no {
+    font-family: var(--type);
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+
+.index-label {
+    font-family: var(--type);
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+/* A dotted leader running from the label to the title, like a contents page */
+.index-title {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+}
+
+.index-title::before {
+    content: '';
+    flex: 1;
+    border-bottom: 2px dotted rgba(60, 60, 80, 0.35);
+}
+
+.index-card a:hover .index-label {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+@media (max-width: 860px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-side {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+        order: -1;
+        margin: 4px 0 8px;
+    }
+
+    .stamp-block {
+        width: 150px;
+        font-size: 1.15rem;
+        padding: 24px 14px 16px;
+    }
+
+    .photo {
+        width: 140px;
+    }
+}
+
+@media (max-width: 480px) {
+    .doc-head {
+        flex-wrap: wrap;
+    }
+
+    .doc-ref {
+        align-items: flex-start;
+    }
+
+    .stamp-block {
+        width: 124px;
+        font-size: 1rem;
+    }
+
+    .photo {
+        width: 118px;
+        padding: 8px 8px 6px;
+    }
+
+    .record > div {
+        grid-template-columns: 84px 1fr;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .index-card {
+        padding: 18px 16px 30px;
+    }
+
+    .index-card a {
+        grid-template-columns: 28px 1fr;
+    }
+
+    .index-title {
+        grid-column: 2;
+    }
+
+    .index-title::before {
+        display: none;
+    }
+}
+
+/* ------------------------------------------------------------------
+   Projects: a pile of loose sheets. The top one is dragged or swiped
+   aside and slides to the back; the rest sit crooked underneath.
+   ------------------------------------------------------------------ */
+.paper-stack-wrap {
+    margin-top: 44px;
+}
+
+.paper-stack {
+    position: relative;
+    display: grid;
+    max-width: 760px;
+    /* Room for the sheets fanned out underneath */
+    padding: 0 36px 34px 0;
+    outline-offset: 10px;
+}
+
+.paper {
+    --stock: var(--paper);
+    position: relative;
+    grid-area: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding: 26px 30px 24px;
+    background-color: var(--stock);
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.035) 1px, transparent 1px);
+    background-size: 100% 28px;
+    box-shadow: var(--shadow);
+    transform:
+        translate(calc(var(--depth) * 14px), calc(var(--depth) * 12px))
+        rotate(var(--tilt));
+    transition: transform 0.45s cubic-bezier(.2, .8, .2, 1), opacity 0.3s, box-shadow 0.3s;
+    touch-action: pan-y;
+    user-select: none;
+}
+
+.paper::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: var(--grain);
+    opacity: 0.18;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+}
+
+.paper.tone-manila { --stock: color-mix(in srgb, var(--manila) 45%, var(--paper)); }
+.paper.tone-slate { --stock: color-mix(in srgb, var(--slate) 40%, var(--paper)); }
+.paper.tone-kraft { --stock: color-mix(in srgb, var(--kraft) 38%, var(--paper)); }
+.paper.tone-olive { --stock: color-mix(in srgb, var(--olive) 38%, var(--paper)); }
+
+.paper.is-top {
+    transform: none;
+    cursor: grab;
+    box-shadow: var(--shadow-lg);
+}
+
+.paper.is-dragging {
+    cursor: grabbing;
+    transition: none;
+}
+
+.paper.is-flying {
+    opacity: 0;
+    transition: transform 0.36s cubic-bezier(.5, 0, .75, 0), opacity 0.36s ease-in;
+}
+
+/* Sheets deep in the pile are hidden, and jump back into place without flying across */
+.paper.is-buried {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.paper-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.25);
+    font-family: var(--type);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+}
+
+.paper-content {
+    display: grid;
+    grid-template-columns: 130px minmax(0, 1fr);
+    gap: 28px;
+    align-items: start;
+}
+
+/* A halftone "scan" holding the project mark */
+.scan {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    color: var(--ink);
+    background-color: rgba(255, 255, 255, 0.35);
+    background-image: radial-gradient(rgba(0, 0, 0, 0.2) 1px, transparent 1.4px);
+    background-size: 5px 5px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    transform: rotate(-1.5deg);
+}
+
+.paper-title {
+    font-family: var(--display);
+    font-stretch: 62%;
+    font-weight: 800;
+    font-size: clamp(1.9rem, 3.6vw, 2.9rem);
+    line-height: 0.95;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+.card-text {
+    font-size: 0.92rem;
+    max-width: 520px;
+}
+
+.paper-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    margin-top: 16px;
+    font-family: var(--type);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.paper-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    text-underline-offset: 4px;
+}
+
+.paper-links a:hover {
+    color: var(--blue);
+}
+
+.paper-materials {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.paper-materials .barcode {
+    width: 72px;
+    height: 20px;
+    margin-left: auto;
+}
+
+.paper .skill-tag {
+    background: var(--blue);
+}
+
+.paper-controls {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 18px;
+    color: var(--ink);
+}
+
+.paper-count {
+    font-family: var(--type);
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+}
+
+.paper-count span {
+    color: var(--ink);
+    font-weight: 700;
+}
+
+.paper-hint {
+    margin-left: auto;
+    font-family: var(--type);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+@media (max-width: 600px) {
+    .paper-stack {
+        padding: 0 18px 22px 0;
+    }
+
+    .paper {
+        padding: 20px 18px;
+        transform:
+            translate(calc(var(--depth) * 7px), calc(var(--depth) * 8px))
+            rotate(var(--tilt));
+    }
+
+    .paper-content {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .scan {
+        width: 88px;
+    }
+
+    .paper-meta {
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .paper-hint {
+        display: none;
+    }
+}
+
+
+/* ------------------------------------------------------------------
+   Skill tags: embossed label-maker tape
+   ------------------------------------------------------------------ */
+.card-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.skill-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 4px 10px 3px;
+    font-family: var(--type);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #f2efe6;
+    background: #23221f;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 1px 1px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.6);
+}
+
+.skill-tag svg {
+    opacity: 0.75;
+}
+
+
+/* ------------------------------------------------------------------
+   Skills: a row of index cards
+   ------------------------------------------------------------------ */
+.page-skills {
+    margin-top: 72px;
+}
+
+.page-skills #skills {
+    padding-top: 40px;
+    border-top: 1px dashed var(--line);
+}
+
+.skills-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.skills-title {
+    font-size: 1.9rem;
+    text-transform: uppercase;
+}
+
+.skills-arrows {
+    display: flex;
+    gap: 8px;
+    color: var(--ink);
+}
+
+/* Keep the button's space when hidden so the header doesn't jump around */
+.skills-arrows .icon-btn[hidden] {
+    display: grid;
+    visibility: hidden;
+}
+
+/* Touch users swipe instead, so the arrows only appear on wider screens */
+@media (max-width: 720px) {
+    .skills-arrows {
+        display: none;
+    }
+}
+
+.skills-track {
+    --fade-left: 0px;
+    --fade-right: 0px;
+    display: flex;
+    gap: 22px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 6px;
+    /* Room for the card shadow, tilt and hover lift, which would otherwise be clipped */
+    padding: 14px 6px 28px;
+    scrollbar-width: none;
+    /* Fade out an edge only when there's more content hidden behind it */
+    mask-image: linear-gradient(to right,
+        transparent, #000 var(--fade-left),
+        #000 calc(100% - var(--fade-right)), transparent);
+}
+
+.skills-track::-webkit-scrollbar {
+    display: none;
+}
+
+.skills-track.fade-left {
+    --fade-left: 48px;
+}
+
+.skills-track.fade-right {
+    --fade-right: 48px;
+}
+
+.skills-track:focus-visible {
+    outline: 2px dashed var(--blue);
+    outline-offset: 4px;
+}
+
+/* Three cards per view on desktop, but never narrower than 240px */
+.skill-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex: 0 0 calc((100% - 44px) / 3);
+    min-width: 240px;
+    min-height: 200px;
+    padding: 14px 20px 40px;
+    scroll-snap-align: start;
+    background-color: var(--card);
+    /* Index card: one red header rule, then faint blue lines */
+    background-image:
+        linear-gradient(transparent 46px, rgba(178, 64, 46, 0.55) 46px 47.5px, transparent 47.5px),
+        repeating-linear-gradient(transparent 0 25px, rgba(46, 64, 160, 0.14) 25px 26px);
+    background-position: 0 0, 0 48px;
+    box-shadow: var(--shadow);
+    transform: rotate(var(--tilt, -0.6deg));
+    transition: transform 0.3s cubic-bezier(.2, .8, .2, 1), box-shadow 0.3s;
+}
+
+.skill-card:nth-child(even) {
+    --tilt: 0.8deg;
+}
+
+.skill-card:hover {
+    transform: translateY(-6px) rotate(0deg);
+    box-shadow: var(--shadow-lg);
+}
+
+.skill-card-no {
+    position: absolute;
+    bottom: 12px;
+    right: 18px;
+    font-family: var(--type);
+    font-size: 0.64rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.skill-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 32px;
+}
+
+.skill-card-header .card-icon {
+    display: grid;
+    place-items: center;
+    color: var(--blue-ink);
+}
+
+.card-title {
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.skill-card .card-skills {
+    padding-top: 6px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .skills-track:not(.is-visible) .skill-card {
+        opacity: 0;
+    }
+
+    /* Cards are dealt onto the desk one after another */
+    .skills-track.is-visible .skill-card {
+        animation: deal-card 0.5s cubic-bezier(.2, .8, .2, 1) both;
+        animation-delay: calc(var(--i) * 80ms);
+    }
+}
+
+@keyframes deal-card {
+    from {
+        opacity: 0;
+        transform: translateY(24px) rotate(-4deg);
+    }
+}
+
+/* ------------------------------------------------------------------
+   Contact: a routing slip
+   ------------------------------------------------------------------ */
+.slip {
+    position: relative;
+    max-width: 720px;
+    margin-top: 40px;
+    padding: 0 0 28px;
+    background: var(--card);
+    border: 1.5px solid var(--ink);
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.12);
+}
+
+.slip-head {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    font-family: var(--type);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    background: var(--ink);
+    color: var(--paper);
+}
+
+.slip-to {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    align-items: baseline;
+    padding: 16px 20px;
+    border-bottom: 1.5px solid var(--ink);
+    font-family: var(--type);
+    font-size: 1.05rem;
+    color: var(--blue-ink);
+}
+
+.contact-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.contact-list a {
+    display: grid;
+    grid-template-columns: 34px 36px 110px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--line);
+    text-decoration: none;
+    color: var(--ink);
+    /* A highlighter stroke that sweeps across on hover */
+    background: linear-gradient(rgba(35, 64, 200, 0.12), rgba(35, 64, 200, 0.12)) no-repeat 0 0 / 0 100%;
+    transition: background-size 0.35s cubic-bezier(.2, .8, .2, 1);
+}
+
+.contact-list a:hover,
+.contact-list a:focus-visible {
+    background-size: 100% 100%;
+}
+
+.slip-no {
+    font-family: var(--type);
+    font-size: 0.75rem;
+    color: var(--muted);
+}
+
+.contact-list .card-icon {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border: 1.5px solid var(--ink);
+    font-size: 0.95rem;
+}
+
+.contact-label {
+    font-family: var(--type);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.contact-value {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--blue-ink);
+    overflow-wrap: anywhere;
+}
+
+.slip-arrow {
+    transition: transform 0.25s;
+}
+
+.contact-list a:hover .slip-arrow {
+    transform: translate(3px, -3px);
+}
+
+/* A rubber stamp pressed onto the slip at an angle */
+.ink-stamp {
+    position: absolute;
+    right: 28px;
+    bottom: -34px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 18px;
+    font-family: var(--type);
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    line-height: 1.3;
+    text-transform: uppercase;
+    color: var(--stamp);
+    border: 3px double var(--stamp);
+    border-radius: 6px;
+    transform: rotate(-9deg);
+    opacity: 0.82;
+    mix-blend-mode: multiply;
+    /* Patchy ink */
+    mask-image: var(--grain), linear-gradient(#000, #000);
+    mask-composite: exclude;
+}
+
+@media (max-width: 600px) {
+    .contact-list a {
+        grid-template-columns: 34px 1fr auto;
+        grid-template-areas:
+            "icon label arrow"
+            "icon value arrow";
+        row-gap: 0;
+        padding: 14px 16px;
+    }
+
+    .slip-no {
+        display: none;
+    }
+
+    .contact-list .card-icon { grid-area: icon; }
+    .contact-label { grid-area: label; }
+    .contact-value { grid-area: value; }
+    .slip-arrow { grid-area: arrow; }
+
+    .slip-head,
+    .slip-to {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .ink-stamp {
+        right: 12px;
+        font-size: 0.66rem;
+    }
+}
+
+/* ------------------------------------------------------------------
+   Footer, back on the desk
+   ------------------------------------------------------------------ */
+.footer {
+    padding: 8px 0 36px;
+    font-family: var(--type);
+    font-size: 0.75rem;
+    color: var(--desk-muted);
+}
+
+.footer .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.end-of-file {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-basis: 100%;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--desk-ink);
+}
+
+.end-of-file::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px dashed var(--desk-muted);
+}
+
+.social-icons {
+    display: flex;
+    gap: 8px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    color: var(--desk-ink);
+}
+
+.footer .icon-btn:hover {
+    background: var(--desk-ink);
+    color: var(--desk);
+}

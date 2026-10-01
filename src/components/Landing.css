@@ -1,0 +1,860 @@
+/* ------------------------------------------------------------------
+   Landing: file folders lined up edge-on, after the reference sheet.
+   Each strip sits over the one to its left, with its tab stepped a little
+   further down; pulling a file strip up opens that page.
+   ------------------------------------------------------------------ */
+.landing {
+    display: flex;
+    height: 100svh;
+    min-height: 640px;
+    overflow: hidden;
+    background: var(--desk);
+}
+
+.landing-files {
+    display: flex;
+    flex: 3.3 1 0;
+    min-width: 0;
+}
+
+.strip {
+    --tone: #8b8a7a;
+    --tab: var(--tone);
+    --ink-on: #2f2f26;
+    position: relative;
+    z-index: calc(2 + var(--i, 0));
+    flex: 1 1 0;
+    min-width: 0;
+    color: var(--ink-on);
+    background-color: var(--tone);
+    background-image: var(--grain);
+    background-blend-mode: multiply;
+    box-shadow: -10px 0 18px -6px rgba(0, 0, 0, 0.45);
+    text-decoration: none;
+}
+
+/* A die-cut tab on the left edge, overlapping the strip before it */
+.strip-tab {
+    position: absolute;
+    top: calc(28px + var(--i, 0) * 54px);
+    left: -30px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    width: 31px;
+    height: 200px;
+    padding: 14px 0;
+    writing-mode: vertical-rl;
+    font-family: var(--type);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-on);
+    background-color: var(--tab);
+    background-image: var(--grain);
+    background-blend-mode: multiply;
+    border-radius: 9px 0 0 9px;
+    box-shadow: -6px 2px 10px -4px rgba(0, 0, 0, 0.4);
+}
+
+/* The little step where the tab meets the strip body */
+.strip-tab::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -14px;
+    width: 14px;
+    height: 14px;
+    background: radial-gradient(circle at 0 100%, transparent 13.5px, var(--tab) 14px);
+}
+
+.strip-code {
+    font-weight: 400;
+    opacity: 0.75;
+}
+
+/* Cover strip */
+.strip-cover {
+    flex: 1.3 1 0;
+    z-index: 1;
+    padding: 28px 22px 22px;
+    box-shadow: none;
+}
+
+.cover-title {
+    writing-mode: vertical-rl;
+    font-family: var(--display);
+    font-stretch: 62%;
+    font-weight: 800;
+    font-size: min(9.6vh, 7.2vw);
+    line-height: 0.86;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: #36362b;
+    white-space: nowrap;
+}
+
+.cover-kicker {
+    display: block;
+    font-family: var(--type);
+    font-stretch: normal;
+    font-weight: 400;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    letter-spacing: 0.14em;
+}
+
+.cover-sub {
+    position: absolute;
+    right: 16px;
+    bottom: 22px;
+    writing-mode: vertical-rl;
+    font-size: 0.72rem;
+    line-height: 1.4;
+}
+
+.cover-file {
+    position: absolute;
+    left: 22px;
+    bottom: 20px;
+    font-family: var(--type);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+}
+
+/* Archive log: a cream typed sheet */
+.strip-log-sheet {
+    --tone: #e8e1cd;
+    --tab: #ddd5bf;
+    flex: 1.05 1 0;
+    /* Lets the greeting size itself to the strip so it always fits */
+    container-type: inline-size;
+}
+
+.log-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+    /* The right padding keeps everything clear of the About tab, which overlaps this strip */
+    padding: 28px 50px 24px 26px;
+}
+
+.log-rule {
+    display: block;
+    height: 1px;
+    background: var(--ink-on);
+    margin-left: 20%;
+}
+
+.log-body .barcode {
+    width: 70%;
+    margin-left: auto;
+    height: 46px;
+}
+
+.log-hello {
+    font-family: var(--display);
+    font-stretch: 62%;
+    font-weight: 800;
+    font-size: clamp(1.5rem, 14cqw, 3rem);
+    line-height: 0.9;
+    text-transform: uppercase;
+    color: var(--ink);
+}
+
+.log-ref {
+    align-self: flex-end;
+    padding: 4px 10px;
+    border: 1px solid var(--ink-on);
+    font-family: var(--type);
+    font-size: 0.72rem;
+}
+
+.log-text {
+    font-family: var(--type);
+    font-size: 0.78rem;
+    line-height: 1.6;
+    text-align: right;
+    text-transform: uppercase;
+}
+
+.log-scan {
+    display: block;
+    margin-top: auto;
+    height: 90px;
+    border: 1px solid var(--ink-on);
+    background:
+        linear-gradient(170deg, transparent 55%, rgba(60, 50, 35, 0.55) 56%, rgba(60, 50, 35, 0.35)),
+        radial-gradient(rgba(0, 0, 0, 0.25) 1px, transparent 1.4px) 0 0 / 4px 4px,
+        #cfc4ab;
+}
+
+/* File strips */
+.strip-file {
+    display: block;
+    cursor: pointer;
+    transition: transform 0.45s cubic-bezier(.2, .8, .2, 1), flex-grow 0.45s cubic-bezier(.2, .8, .2, 1);
+}
+
+.strip-file:hover,
+.strip-file:focus-visible {
+    flex-grow: 1.9;
+    transform: translateY(-14px);
+}
+
+.strip-file:focus-visible {
+    outline: 2px dashed var(--paper);
+    outline-offset: -8px;
+}
+
+.strip-face {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.strip-caption {
+    position: absolute;
+    left: 20px;
+    top: 24px;
+    font-family: var(--type);
+    font-size: 0.78rem;
+    line-height: 1.4;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.strip-about {
+    --tone: #a9aeb1;
+    --tab: #b9bdbf;
+}
+
+.pixel {
+    position: absolute;
+    background: #1d1d1b;
+}
+
+.strip-log {
+    position: absolute;
+    top: 30px;
+    right: 18px;
+    font-family: var(--type);
+    font-size: 0.75rem;
+    line-height: 1.3;
+    text-align: right;
+}
+
+.strip-projects {
+    --tone: #8c6b45;
+    --tab: #b3916a;
+    --ink-on: #1d1810;
+}
+
+.strip-blur {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 60% 35% at 70% 30%, rgba(20, 15, 8, 0.65), transparent 70%),
+        radial-gradient(ellipse 50% 30% at 30% 75%, rgba(235, 200, 140, 0.35), transparent 70%);
+    filter: blur(6px);
+}
+
+.strip-big {
+    position: absolute;
+    right: 14px;
+    top: 16px;
+    font-family: var(--display);
+    font-stretch: 62%;
+    font-weight: 800;
+    font-size: 4.2rem;
+    line-height: 0.8;
+    color: rgba(20, 15, 8, 0.75);
+}
+
+.strip-contact {
+    --tone: #1a1a18;
+    --tab: #cfc8b8;
+    --ink-on: #e9e4d6;
+}
+
+.strip-contact .strip-tab {
+    color: var(--ink);
+}
+
+.strip-end {
+    --tone: #3a3b32;
+    --tab: #6f705f;
+    --ink-on: #d8d2c3;
+    flex: 0.5 1 0;
+}
+
+.strip-end .strip-tab {
+    color: #1d1d18;
+}
+
+.end-note {
+    position: absolute;
+    left: 50%;
+    bottom: 24px;
+    writing-mode: vertical-rl;
+    transform: translateX(-50%) rotate(180deg);
+    font-family: var(--type);
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------
+   Sneak peek: each folder holds its full page on an A4 sheet. The folders
+   stacked on top hide most of it, so only the left edge shows until a
+   folder is hovered and widens to reveal more.
+   ------------------------------------------------------------------ */
+.strip-file .strip-face {
+    overflow: visible;
+}
+
+.peek {
+    position: absolute;
+    z-index: 1;
+    top: 96px;
+    bottom: 16px;
+    left: 12px;
+    aspect-ratio: 210 / 297;
+    container-type: inline-size;
+    overflow: hidden;
+    color: var(--ink);
+    background-color: var(--paper);
+    background-image: repeating-linear-gradient(to bottom, transparent 0 2.6cqw, var(--rule) 2.6cqw calc(2.6cqw + 1px));
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25), 0 18px 30px -12px rgba(0, 0, 0, 0.6);
+}
+
+/* Punched holes down the page margin */
+.peek::before {
+    content: '';
+    position: absolute;
+    top: 3%;
+    bottom: 3%;
+    left: 3.2%;
+    width: 3.4cqw;
+    background: radial-gradient(circle at 50% 1.7cqw, rgba(0, 0, 0, 0.42) 0 1.2cqw, transparent 1.35cqw) 0 0 / 3.4cqw 7.4cqw repeat-y;
+}
+
+/* Everything on the page is sized in em, so the page scales with the sheet */
+.pg {
+    display: flex;
+    flex-direction: column;
+    gap: 1.3em;
+    height: 100%;
+    padding: 7% 7% 6% 13%;
+    font-size: 2.3cqw;
+    line-height: 1.4;
+}
+
+.pg-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1em;
+    padding-bottom: 0.8em;
+    border-bottom: 1px dashed var(--line);
+    font-family: var(--type);
+    font-size: 0.62em;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.pg-head em {
+    font-style: normal;
+    color: var(--blue-ink);
+}
+
+.pg-head .barcode {
+    width: 7em;
+    height: 2.2em;
+}
+
+.pg-eyebrow {
+    display: block;
+    margin-bottom: 0.6em;
+    font-family: var(--type);
+    font-size: 0.7em;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--blue-ink);
+}
+
+.pg-title {
+    display: block;
+    font-family: var(--type);
+    font-weight: 700;
+    font-size: 2.6em;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+}
+
+.pg-sub {
+    display: block;
+    font-family: var(--type);
+    font-weight: 700;
+    font-size: 1.3em;
+    text-transform: uppercase;
+}
+
+/* Typed text, drawn as grey bars */
+.peek-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75em;
+}
+
+.peek-lines > span {
+    display: block;
+    height: 0.45em;
+    background: rgba(0, 0, 0, 0.24);
+}
+
+.pg-grid {
+    display: grid;
+    grid-template-columns: 1fr 32%;
+    gap: 1.6em;
+}
+
+.pg-main {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2em;
+}
+
+.pg-fields {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--line);
+}
+
+.pg-fields > span {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    padding: 0.55em 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.pg-fields b {
+    width: 6em;
+    font-family: var(--type);
+    font-size: 0.6em;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.pg-fields i {
+    height: 0.5em;
+    width: 55%;
+    background: var(--blue-ink);
+    opacity: 0.55;
+}
+
+.pg-fields > span:nth-child(2) i { width: 48%; }
+.pg-fields > span:nth-child(3) i { width: 40%; }
+
+.pg-buttons {
+    display: flex;
+    gap: 0.8em;
+}
+
+.pg-buttons i {
+    width: 9em;
+    height: 2.4em;
+    border: 1.5px solid var(--ink);
+}
+
+.pg-buttons i:first-child {
+    background: var(--blue);
+    border-color: var(--blue);
+}
+
+.pg-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2em;
+}
+
+.pg-block {
+    display: block;
+    width: 100%;
+    padding: 1.4em 1em 1em;
+    font-family: var(--type);
+    font-size: 1em;
+    line-height: 1.15;
+    text-align: right;
+    text-transform: uppercase;
+    color: #eef0ff;
+    background: var(--blue);
+    transform: rotate(1.4deg);
+    clip-path: polygon(4% 0, 100% 0, 100% 100%, 2% 100%, 0 85%, 4% 70%, 0 55%, 4% 40%, 0 25%, 3% 12%);
+}
+
+.pg-photo {
+    display: block;
+    width: 90%;
+    aspect-ratio: 4 / 5;
+    border: 0.5em solid var(--card);
+    border-bottom-width: 1.6em;
+    background: #c9c3b4 center 20% / cover;
+    box-shadow: var(--shadow);
+    transform: rotate(-2deg);
+}
+
+/* About: the torn contents card */
+.pg-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4em;
+    width: 70%;
+    padding: 1.2em 1.4em 1.8em;
+    background-color: #ebe2cf;
+    background-image:
+        linear-gradient(rgba(60, 70, 110, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(60, 70, 110, 0.12) 1px, transparent 1px);
+    background-size: 1em 1em;
+    clip-path: polygon(0 0, 100% 0, 100% 94%, 90% 100%, 78% 95%, 64% 100%, 50% 96%, 36% 100%, 22% 95%, 10% 100%, 0 96%);
+    transform: rotate(-0.6deg);
+}
+
+.pg-card > b {
+    font-family: var(--type);
+    font-size: 0.6em;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.pg-card > span {
+    display: flex;
+    gap: 1em;
+    font-family: var(--type);
+    font-weight: 700;
+    color: var(--blue-ink);
+}
+
+.pg-card small {
+    font-size: 0.8em;
+    font-weight: 400;
+    color: var(--muted);
+}
+
+/* Projects: the pile of sheets, the turn controls and the index cards */
+.pg-pile {
+    position: relative;
+    display: block;
+    height: 15em;
+    margin-right: 2em;
+}
+
+.pg-pile > span {
+    position: absolute;
+    inset: 0;
+    display: block;
+    box-shadow: var(--shadow);
+}
+
+.pg-pile > span:nth-child(1) {
+    background: color-mix(in srgb, var(--olive) 38%, var(--paper));
+    transform: translate(1.6em, 1.4em) rotate(2deg);
+}
+
+.pg-pile > span:nth-child(2) {
+    background: color-mix(in srgb, var(--slate) 40%, var(--paper));
+    transform: translate(0.8em, 0.7em) rotate(-1.2deg);
+}
+
+.pg-pile > span:nth-child(3) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9em;
+    padding: 1.2em 1.4em;
+    background: color-mix(in srgb, var(--manila) 45%, var(--paper));
+}
+
+.pg-pile b {
+    font-family: var(--type);
+    font-size: 0.6em;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+}
+
+.pg-pile strong {
+    display: block;
+    height: 1.2em;
+    width: 70%;
+    background: var(--ink);
+}
+
+.pg-tags {
+    display: flex;
+    gap: 0.5em;
+}
+
+.pg-tags i {
+    width: 3.6em;
+    height: 1.2em;
+    background: var(--blue);
+}
+
+.pg-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.8em;
+    font-family: var(--type);
+    font-size: 0.8em;
+    color: var(--muted);
+}
+
+.pg-controls i {
+    width: 2.2em;
+    height: 2.2em;
+    border: 1.5px solid var(--ink);
+}
+
+.pg-cards {
+    display: flex;
+    gap: 1.2em;
+    padding-top: 1.2em;
+    border-top: 1px dashed var(--line);
+}
+
+.pg-cards > span {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9em;
+    min-height: 7em;
+    padding: 0.8em;
+    background: linear-gradient(transparent 2.2em, rgba(178, 64, 46, 0.55) 2.2em calc(2.2em + 1px), transparent 0), var(--card);
+    box-shadow: var(--shadow);
+}
+
+.pg-cards > span:nth-child(odd) { transform: rotate(-0.8deg); }
+.pg-cards > span:nth-child(even) { transform: rotate(1deg); }
+
+.pg-cards strong {
+    display: block;
+    height: 0.7em;
+    width: 60%;
+    background: var(--ink);
+}
+
+.pg-cards .pg-tags i {
+    width: 2.8em;
+    background: #23221f;
+}
+
+/* Contact: the routing slip */
+.pg-slip {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1.5px solid var(--ink);
+    background: var(--card);
+}
+
+.pg-slip-head {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.6em 1em;
+    font-family: var(--type);
+    font-size: 0.65em;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+}
+
+.pg-slip > span:not(.pg-slip-head):not(.pg-stamp) {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    padding: 1em;
+    border-bottom: 1px solid var(--line);
+}
+
+.pg-slip i {
+    flex-shrink: 0;
+    width: 1.8em;
+    height: 1.8em;
+    border: 1.5px solid var(--ink);
+}
+
+.pg-slip b {
+    width: 5em;
+    height: 0.45em;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.pg-slip u {
+    height: 0.55em;
+    width: 45%;
+    background: var(--blue-ink);
+    opacity: 0.6;
+}
+
+.pg-stamp {
+    position: absolute;
+    right: 1.5em;
+    bottom: -2.4em;
+    padding: 0.6em 1.2em;
+    font-family: var(--type);
+    font-size: 0.7em;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    line-height: 1.3;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--stamp);
+    border: 3px double var(--stamp);
+    border-radius: 5px;
+    transform: rotate(-9deg);
+    opacity: 0.8;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    /* Files rise into place one after another */
+    .landing .strip {
+        animation: strip-rise 0.8s cubic-bezier(.2, .8, .2, 1) backwards;
+        animation-delay: calc(var(--i, -1) * 70ms + 70ms);
+    }
+}
+
+@keyframes strip-rise {
+    from {
+        transform: translateY(70px);
+        opacity: 0;
+    }
+}
+
+/* Narrow screens: the strips become a pile of folders seen from the top edge */
+@media (max-width: 860px) {
+    .landing,
+    .landing-files {
+        flex-direction: column;
+        height: auto;
+        min-height: 100svh;
+        overflow: visible;
+        overflow-x: clip;
+    }
+
+    .landing-files {
+        flex: none;
+        min-height: 0;
+    }
+
+    .strip {
+        flex: none;
+        min-height: 150px;
+        box-shadow: 0 -10px 18px -6px rgba(0, 0, 0, 0.45);
+    }
+
+    .strip-tab {
+        top: -28px;
+        left: calc(12px + var(--i, 0) * 13%);
+        width: auto;
+        height: 29px;
+        padding: 0 16px;
+        align-items: center;
+        writing-mode: horizontal-tb;
+        border-radius: 9px 9px 0 0;
+        box-shadow: 0 -4px 8px -4px rgba(0, 0, 0, 0.4);
+    }
+
+    .strip-tab::after {
+        display: none;
+    }
+
+    .strip-cover {
+        padding: 24px 20px 64px;
+    }
+
+    .cover-title {
+        writing-mode: horizontal-tb;
+        font-size: clamp(3rem, 15vw, 6rem);
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    .cover-sub {
+        writing-mode: horizontal-tb;
+        right: 20px;
+        bottom: 20px;
+        text-align: right;
+    }
+
+    .strip-log-sheet {
+        margin-top: 28px;
+    }
+
+    .log-body {
+        padding: 24px 20px;
+    }
+
+    .log-body .barcode {
+        width: 50%;
+    }
+
+    .log-scan {
+        display: none;
+    }
+
+    .strip-file {
+        min-height: 300px;
+        margin-top: 28px;
+    }
+
+    /* On phones each band shows the top of its page, cut off by the band's edge */
+    .strip-file .strip-face {
+        overflow: hidden;
+    }
+
+    .peek {
+        top: 76px;
+        left: 14px;
+        right: 14px;
+        bottom: auto;
+    }
+
+    .strip-caption {
+        top: 18px;
+    }
+
+    .strip-file:hover,
+    .strip-file:focus-visible {
+        transform: translateX(10px);
+    }
+
+    .strip-log {
+        display: none;
+    }
+
+    .strip-big {
+        top: 12px;
+        font-size: 3.2rem;
+    }
+
+    .strip-end {
+        min-height: 90px;
+        margin-top: 28px;
+    }
+
+    .end-note {
+        writing-mode: horizontal-tb;
+        transform: translateX(-50%);
+    }
+}

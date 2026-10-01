@@ -1,0 +1,91 @@
+:root {
+  color-scheme: light;
+
+  /* The desk the folder sits on */
+  --desk: #1b1a17;
+  --desk-ink: #d8d2c3;
+  --desk-muted: #8c8676;
+
+  /* Paper and ink */
+  --paper: #f3efe5;
+  --paper-2: #e6dfcf;
+  --card: #f8f4e8;
+  --ink: #22211e;
+  --ink-soft: #4d4a43;
+  --muted: #7a7466;
+  --rule: rgba(46, 64, 110, 0.085);
+  --line: #cfc6b2;
+
+  /* Archive folder stock */
+  --manila: #d6c296;
+  --sage: #c2caa5;
+  --slate: #9ba4aa;
+  --kraft: #a8895f;
+  --olive: #898873;
+
+  /* Ink colours: typed blue and stamp blue from the reference sheets */
+  --blue: #2340c8;
+  --blue-ink: #2a3fae;
+  --stamp: #b2402e;
+
+  --shadow: 0 1px 1px rgba(0, 0, 0, 0.12), 0 10px 24px -8px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 2px 3px rgba(0, 0, 0, 0.18), 0 28px 50px -18px rgba(0, 0, 0, 0.55);
+
+  /* Photocopy grain, used as an overlay on paper and folder stock */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 -.15'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
+  --display: 'Archivo', 'Arial Narrow', sans-serif;
+  --type: 'Space Mono', 'Courier New', monospace;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  font: 400 15px/1.7 var(--mono);
+  color: var(--ink-soft);
+  background: var(--desk);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--desk);
+  background-image: var(--grain);
+  background-blend-mode: soft-light;
+}
+
+#root {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--type);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.1;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--blue);
+  color: var(--paper);
+}
+
+:focus-visible {
+  outline: 2px dashed var(--blue);
+  outline-offset: 3px;
+}
