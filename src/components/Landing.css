@@ -180,17 +180,6 @@
     text-transform: uppercase;
 }
 
-.log-scan {
-    display: block;
-    margin-top: auto;
-    height: 90px;
-    border: 1px solid var(--ink-on);
-    background:
-        linear-gradient(170deg, transparent 55%, rgba(60, 50, 35, 0.55) 56%, rgba(60, 50, 35, 0.35)),
-        radial-gradient(rgba(0, 0, 0, 0.25) 1px, transparent 1.4px) 0 0 / 4px 4px,
-        #cfc4ab;
-}
-
 /* File strips */
 .strip-file {
     display: block;

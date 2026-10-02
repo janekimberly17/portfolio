@@ -132,7 +132,7 @@ const Landing = () => (
 				Software Engineer:<br />
 				Machine Learning · AI · Full stack
 			</p>
-			<p className="cover-file">FILE_00//</p>
+			<p className="cover-file">FILE_01//</p>
 		</header>
 
 		<section className="strip strip-log-sheet" style={{ '--i': 0 }} aria-label="Archive log">
@@ -145,7 +145,6 @@ const Landing = () => (
 				<p className="log-text">
 					I am a software engineer with a foundation in Machine Learning, AI, data analytics and full-stack development. Come explore my crafts!
 				</p>
-				<span className="log-scan" aria-hidden="true" />
 			</div>
 		</section>
 
