@@ -37,8 +37,9 @@ export const projects = [
 		tab: 'Playworks',
 		tone: 'olive',
 		title: 'Playworks Reading House Website',
-		text: 'Freelance work (2024). Designed and deployed a responsive corporate website for a children\'s literacy intervention centre.',
+		text: 'My first Freelance work (2024). Designed and deployed a responsive corporate website for a children\'s literacy intervention centre.',
 		skills: ['HTML', 'CSS', 'JavaScript'],
+		site: 'https://www.playworksreadinghouse.com/',
 	},
 	{
 		icon: FlaskConical,

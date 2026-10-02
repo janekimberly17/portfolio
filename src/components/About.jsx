@@ -26,8 +26,8 @@ const About = () => (
 				</dl>
 
 				<p className="section-description">
-					I'm a software engineer with a foundation in data
-					analytics, AI, ML, DL and full-stack development, currently pursuing a Certificate
+					I am a software engineer with a foundation in data
+					analytics, AI, Machine Learning, and full-stack development, currently pursuing a Certificate
 					in AI and Cloud for Construction at Gamuda AI Academy. I turn
 					operational data into machine learning models and dashboards that
 					measurably improve efficiency.
@@ -46,10 +46,9 @@ const About = () => (
 			<aside className="about-side">
 				<div className="stamp-wrap">
 					<div className="stamp-block">
-						<span>File</span>
-						<span>01</span>
-						<span>— AI &amp;</span>
-						<span>ML</span>
+						<span>File 01 - </span>
+						<span>FULL STACK</span>
+						<span>DEVELOPER</span>
 					</div>
 					<BinderClip className="stamp-clip" />
 				</div>

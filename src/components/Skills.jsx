@@ -52,7 +52,7 @@ const Skills = () => {
 		<section id="skills">
 			<div className="skills-header">
 				<div>
-					<span className="eyebrow">Toolkit // Card index</span>
+					<span className="eyebrow">Toolkit</span>
 					<h2 className="skills-title">Skills</h2>
 				</div>
 				<div className="skills-arrows">

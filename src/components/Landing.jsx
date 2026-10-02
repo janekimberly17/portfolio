@@ -130,7 +130,7 @@ const Landing = () => (
 			</h1>
 			<p className="cover-sub">
 				Software Engineer:<br />
-				ML · DL · AI · Full stack
+				Machine Learning · AI · Full stack
 			</p>
 			<p className="cover-file">FILE_00//</p>
 		</header>
@@ -140,10 +140,10 @@ const Landing = () => (
 			<div className="log-body">
 				<span className="log-rule" />
 				<span className="barcode" aria-hidden="true" />
-				<p className="log-hello">Welcome</p>
+				<p className="log-hello">Dive right in</p>
 				<p className="log-ref">KJH — 01-A</p>
 				<p className="log-text">
-					Software Engineer with a foundation in Machine Learning, Deep Learning, AI, data analytics and full-stack development.
+					I am a software engineer with a foundation in Machine Learning, AI, data analytics and full-stack development. Come explore my crafts!
 				</p>
 				<span className="log-scan" aria-hidden="true" />
 			</div>

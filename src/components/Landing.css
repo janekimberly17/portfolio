@@ -165,7 +165,7 @@
 }
 
 .log-ref {
-    align-self: flex-end;
+    align-self: flex-start;
     padding: 4px 10px;
     border: 1px solid var(--ink-on);
     font-family: var(--type);
@@ -175,8 +175,8 @@
 .log-text {
     font-family: var(--type);
     font-size: 0.78rem;
+    text-align: justify;
     line-height: 1.6;
-    text-align: right;
     text-transform: uppercase;
 }
 
